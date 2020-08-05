@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "507341082350",
+    "firebase_url": "https://text-recognition-app-eb80a.firebaseio.com",
+    "project_id": "text-recognition-app-eb80a",
+    "storage_bucket": "text-recognition-app-eb80a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507341082350:android:74fed857f599b6b7cdadff",
+        "android_client_info": {
+          "package_name": "com.example.scansmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507341082350-te0o0evdm0nen35bp8dfi20tt80ehfal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUfo1ULvGcO_OZXkkHSGH9CcgJc6QDnTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507341082350-te0o0evdm0nen35bp8dfi20tt80ehfal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

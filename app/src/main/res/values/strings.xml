@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ScanSmart</string>
+    <string name="textgrid">What do you want to scan?</string>
+</resources>
