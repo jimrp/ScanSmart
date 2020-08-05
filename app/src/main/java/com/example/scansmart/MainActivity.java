@@ -53,8 +53,9 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Wifi connect", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, Scanner3.class);
-                startActivity(intent);
+
+//                Intent intent = new Intent(MainActivity.this, Scanner3.class);
+//                startActivity(intent);
             }
         });
 
