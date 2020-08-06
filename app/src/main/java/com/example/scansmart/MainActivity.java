@@ -6,11 +6,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
@@ -20,6 +27,8 @@ public class MainActivity extends AppCompatActivity{
     private long backPressedTime;
     private Toast backToast;
     private CardView choice1, choice2, choice3, choice4;
+    private Dialog myDialog;
+    private ImageView selQr, selCam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,8 @@ public class MainActivity extends AppCompatActivity{
         choice2 = findViewById(R.id.choice2);
         choice3 = findViewById(R.id.choice3);
         choice4 = findViewById(R.id.choice4);
+
+        myDialog = new Dialog(this);
 
         choice1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +63,28 @@ public class MainActivity extends AppCompatActivity{
         choice3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Wifi connect", Toast.LENGTH_SHORT).show();
+                myDialog.setContentView(R.layout.custompopup);
+                myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                myDialog.show();
 
-//                Intent intent = new Intent(MainActivity.this, Scanner3.class);
-//                startActivity(intent);
+                selQr = myDialog.findViewById(R.id.selectQr);
+                selCam = myDialog.findViewById(R.id.selectCamera);
+
+                selQr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, Scanner3.class);
+                        startActivity(intent);
+                    }
+                });
+
+                selCam.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "Camera for password", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
@@ -66,6 +95,21 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_about, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.about){
+            Toast.makeText(MainActivity.this, "About page", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
