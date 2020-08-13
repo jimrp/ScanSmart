@@ -31,6 +31,7 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
     public int temp1;
     public WifiConfiguration conf;
     public WifiManager wifiManager;
+    public boolean dialogShowed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,74 +45,89 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
     @Override
     public void handleResult(Result result) {
         scanResult = result.getText();
+        dialogShowed = false;
 
         if (scanResult.startsWith("WIFI:T:")) {
             temp = scanResult.substring(7);
-            temp1 = temp.indexOf(";");
-            type = temp.substring(0,temp1);
 
-            temp = temp.substring(temp1+3);
-            temp1 = temp.indexOf(";");
-            ssid = temp.substring(0,temp1);
+            if(temp.indexOf(";")!=0){
+                temp1 = temp.indexOf(";");
+                type = temp.substring(0,temp1); //get network type
 
-            temp = temp.substring(temp1+3);
-            temp1 = temp.indexOf(";");
-            pass = temp.substring(0,temp1);
+                if(temp.length()>temp1+3){
+                    temp = temp.substring(temp1+3);
 
-            new AlertDialog.Builder(this)
-                    .setTitle("Result")
-                    .setMessage("Wifi Network\nSecurity type = " + type + "\nSSID = " + ssid + "\nPassword = " + pass)
-                    .setPositiveButton("Connect to " + ssid, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(getApplicationContext(), "Trying to connect..", Toast.LENGTH_SHORT).show();
+                    if(temp.indexOf(";")!=0){
+                        temp1 = temp.indexOf(";");
+                        ssid = temp.substring(0,temp1); //get ssid
 
-                            conf = new WifiConfiguration();
-                            conf.SSID = "\"" + ssid + "\"";
+                        if(temp.length()>temp1+3){
+                            temp = temp.substring(temp1+3);
 
-                            if(type.equals("WEP")){
-                                conf.wepKeys[0] = "\"" + pass + "\"";
-                                conf.wepTxKeyIndex = 0;
-                                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-                                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+                            if(temp.indexOf(";")!=0){
+                                temp1 = temp.indexOf(";");
+                                pass = temp.substring(0,temp1); //get password
+
+                                new AlertDialog.Builder(this)
+                                        .setTitle("Result")
+                                        .setMessage("Wifi Network\nSecurity type = " + type + "\nSSID = " + ssid + "\nPassword = " + pass)
+                                        .setPositiveButton("Connect to " + ssid, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Toast.makeText(getApplicationContext(), "Trying to connect..", Toast.LENGTH_SHORT).show();
+
+                                                conf = new WifiConfiguration();
+                                                conf.SSID = "\"" + ssid + "\"";
+
+                                                if(type.equals("WEP")){
+                                                    conf.wepKeys[0] = "\"" + pass + "\"";
+                                                    conf.wepTxKeyIndex = 0;
+                                                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                                                    conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+                                                }
+                                                else if(type.equals("WPA")){
+                                                    conf.preSharedKey = "\""+ pass +"\"";
+                                                }
+                                                else if(type.equals("None")){
+                                                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                                                }
+
+                                                wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                                                int netId = wifiManager.addNetwork(conf);
+                                                wifiManager.disconnect();
+                                                wifiManager.enableNetwork(netId, true);
+                                                wifiManager.reconnect();
+
+                                                scannerView.resumeCameraPreview(Scanner3.this);
+                                            }})
+                                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                scannerView.resumeCameraPreview(Scanner3.this);
+                                            }})
+                                        .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                                            @Override
+                                            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+                                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                                    arg0.dismiss();
+                                                    scannerView.resumeCameraPreview(Scanner3.this);
+                                                }
+                                                return true;
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+                                dialogShowed = true;
                             }
-                            else if(type.equals("WPA")){
-                                conf.preSharedKey = "\""+ pass +"\"";
-                            }
-                            else if(type.equals("None")){
-                                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-                            }
-
-                            wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                            int netId = wifiManager.addNetwork(conf);
-                            wifiManager.disconnect();
-                            wifiManager.enableNetwork(netId, true);
-                            wifiManager.reconnect();
-
-                            scannerView.resumeCameraPreview(Scanner3.this);
-                        }})
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            scannerView.resumeCameraPreview(Scanner3.this);
-                        }})
-                    .setOnKeyListener(new DialogInterface.OnKeyListener() {
-                        @Override
-                        public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                arg0.dismiss();
-                                scannerView.resumeCameraPreview(Scanner3.this);
-                            }
-                            return true;
                         }
-                    })
-                    .create()
-                    .show();
+                    }
+                }
+            }
         }
-        else{
+        if(dialogShowed == false){
             Toast.makeText(Scanner3.this, "That's not a WiFi code..", Toast.LENGTH_SHORT).show();
+            scannerView.resumeCameraPreview(Scanner3.this);
         }
-
     }
 
     @Override
