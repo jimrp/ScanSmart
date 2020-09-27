@@ -11,16 +11,20 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,9 +33,11 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,17 +51,26 @@ import com.google.zxing.Result;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Scanner3b extends AppCompatActivity {
+
+    private WifiManager wifiManager;
+    private ListView listView;
+    private int size = 0;
+    private List<ScanResult> results;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayAdapter adapter;
 
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 1001;
     private static String scanResult;
     ClipboardManager clipboard;
     ClipData clip;
+    public String type, ssid, pass = "";
 
-    Button bRescan, bCopy;
+    Button bRescan, bCopy, bRescanWifi;
     ImageView mPreviewIv;
     EditText eText;
     Uri image_uri;
@@ -69,11 +84,30 @@ public class Scanner3b extends AppCompatActivity {
         eText = findViewById(R.id.resultEt);
         bCopy = findViewById(R.id.btnCopy);
         bRescan = findViewById(R.id.btnReScan);
+        bRescanWifi = findViewById(R.id.btnReScanWifi);
 
+        listView = findViewById(R.id.wifiList);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (!wifiManager.isWifiEnabled()){
+            Toast.makeText(this, "WiFi is disabled. You need to enable it.", Toast.LENGTH_SHORT).show();
+            wifiManager.setWifiEnabled(true);
+        }
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
+        listView.setAdapter(adapter);
+        scanWiFi();
 
         eText.setText("");
         pickCamera();
+
+        bRescanWifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanWiFi();
+            }
+        });
 
         bCopy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +176,25 @@ public class Scanner3b extends AppCompatActivity {
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
+    private void scanWiFi(){
+        arrayList.clear();
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        wifiManager.startScan();
+    }
+
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            results = wifiManager.getScanResults();
+            unregisterReceiver(this);
+
+            for(ScanResult scanResult : results){
+                arrayList.add(scanResult.SSID + " = " + scanResult.capabilities);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     //results
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -189,6 +242,10 @@ public class Scanner3b extends AppCompatActivity {
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(this, "Text Copied", Toast.LENGTH_SHORT).show();
                     eText.setText(scanResult);
+
+                    pass = scanResult;
+
+
                 }
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){

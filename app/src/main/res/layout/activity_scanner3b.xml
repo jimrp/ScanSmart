@@ -46,14 +46,32 @@
         android:maxHeight="250dp"
         android:visibility="gone"/>
 
-    <TextView
-        android:text="Select WiFi to connect"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:text="Select WiFi to connect"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
+        <Button
+            android:id="@+id/btnReScanWifi"
+            android:text="Re-scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/wifiList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
