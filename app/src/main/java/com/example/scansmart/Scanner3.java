@@ -53,21 +53,21 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
         if (scanResult.startsWith("WIFI:T:")) {
             temp = scanResult.substring(7);
 
-            if(temp.indexOf(";")!=0){
+            if(temp.indexOf(";")!=-1){
                 temp1 = temp.indexOf(";");
                 type = temp.substring(0,temp1); //get network type
 
                 if(temp.length()>temp1+3){
                     temp = temp.substring(temp1+3);
 
-                    if(temp.indexOf(";")!=0){
+                    if(temp.indexOf(";")!=-1){
                         temp1 = temp.indexOf(";");
                         ssid = temp.substring(0,temp1); //get ssid
 
                         if(temp.length()>temp1+3){
                             temp = temp.substring(temp1+3);
 
-                            if(temp.indexOf(";")!=0){
+                            if(temp.indexOf(";")!=-1){
                                 temp1 = temp.indexOf(";");
                                 pass = temp.substring(0,temp1); //get password
                             }
