@@ -1,77 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:orientation="vertical"
-    tools:context=".Scanner3b"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:text="Result"
-        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Password Found:"/>
+
     <EditText
-        android:id="@+id/resultEt"
-        android:text=""
         android:textSize="20sp"
+        android:id="@+id/resultEt"
         android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text=""/>
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/btnCopy"
-            android:text="Copy"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></Button>
+            android:layout_height="wrap_content"
+            android:text="Copy"/>
+
         <Button
             android:id="@+id/btnReScan"
-            android:text="Re-Scan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></Button>
+            android:layout_height="wrap_content"
+            android:text="Re-Scan"/>
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageIv"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxHeight="250dp"
-        android:visibility="gone"/>
+        android:maxHeight="250dp"/>
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:text="Select WiFi to connect"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:padding="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnReScanWifi"
-            android:text="Re-scan"
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            />
+            android:layout_marginTop="25dp"
+            android:text="Select WiFi to connect"/>
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/reScan"
+            android:background="@drawable/ripple_effect"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/refresh"/>
 
     </LinearLayout>
 
     <ListView
         android:id="@+id/wifiList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

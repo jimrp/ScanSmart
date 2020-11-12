@@ -50,6 +50,60 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
         ssid = "";
         pass = "";
 
+        //TESSTTTTTTTT
+
+//        if (scanResult.startsWith("WIFI:")) {
+//            temp = scanResult.substring(5);
+//
+//            if(temp.indexOf(";")!=-1){
+//                temp1 = temp.indexOf(";");
+//                if (temp.startsWith("T")){
+//                    temp = temp.substring(2);
+//                    type = temp.substring(0,temp1); //get network type
+//                } else if (temp.startsWith("P")){
+//                    temp = temp.substring(2);
+//                    pass = temp.substring(0,temp1); //get password
+//                } else if (temp.startsWith("S")){
+//                    temp = temp.substring(2);
+//                    ssid = temp.substring(0,temp1); //get ssid
+//                }
+//
+//                if(temp.length()>temp1+3){
+//
+//                    if(temp.indexOf(";")!=-1){
+//                        temp1 = temp.indexOf(";");
+//                        if (temp.startsWith("T")){
+//                            temp = temp.substring(2);
+//                            type = temp.substring(0,temp1); //get network type
+//                        } else if (temp.startsWith("P")){
+//                            temp = temp.substring(2);
+//                            pass = temp.substring(0,temp1); //get password
+//                        } else if (temp.startsWith("S")){
+//                            temp = temp.substring(2);
+//                            ssid = temp.substring(0,temp1); //get ssid
+//                        }
+//
+//                        if(temp.length()>temp1+3){
+//
+//                            if(temp.indexOf(";")!=-1){
+//                                temp1 = temp.indexOf(";");
+//                                if (temp.startsWith("T")){
+//                                    temp = temp.substring(2);
+//                                    type = temp.substring(0,temp1); //get network type
+//                                } else if (temp.startsWith("P")){
+//                                    temp = temp.substring(2);
+//                                    pass = temp.substring(0,temp1); //get password
+//                                } else if (temp.startsWith("S")){
+//                                    temp = temp.substring(2);
+//                                    ssid = temp.substring(0,temp1); //get ssid
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+
         if (scanResult.startsWith("WIFI:T:")) {
             temp = scanResult.substring(7);
 
@@ -129,8 +183,28 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
             }
         }
         else{
-            Toast.makeText(Scanner3.this, "That's not a WiFi code..", Toast.LENGTH_SHORT).show();
-            scannerView.resumeCameraPreview(Scanner3.this);
+            new AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("That's not a WiFi code..")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            scannerView.resumeCameraPreview(Scanner3.this);
+                        }
+                    })
+                    .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                arg0.dismiss();
+                                scannerView.resumeCameraPreview(Scanner3.this);
+                            }
+                            return true;
+                        }
+                    })
+                    .create()
+                    .show();
         }
     }
 

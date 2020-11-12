@@ -18,6 +18,7 @@
             android:id="@+id/selectQr"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@drawable/ripple_effect"
             android:src="@drawable/wifi1"
             android:layout_gravity="center" />
         <TextView
@@ -41,6 +42,7 @@
             android:id="@+id/selectCamera"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@drawable/ripple_effect"
             android:src="@drawable/wifi2"
             android:layout_gravity="center" />
         <TextView
