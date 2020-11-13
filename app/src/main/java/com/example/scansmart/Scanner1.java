@@ -53,11 +53,13 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urls[0]));
                         startActivity(intent);
                     }
+                    dialogInterface.dismiss();
                     scannerView.resumeCameraPreview(Scanner1.this);
                 }})
             .setNeutralButton("Cancel", new Dialog.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
                     scannerView.resumeCameraPreview(Scanner1.this);
                 }})
             .setOnKeyListener(new Dialog.OnKeyListener() {
@@ -85,11 +87,13 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
                             scanResult = "https://www.google.com/search?q=" + scanResult;
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
                             startActivity(intent);
+                            dialogInterface.dismiss();
                             scannerView.resumeCameraPreview(Scanner1.this);
                         }})
                     .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
                             scannerView.resumeCameraPreview(Scanner1.this);
                         }})
                     .setOnKeyListener(new DialogInterface.OnKeyListener() {
