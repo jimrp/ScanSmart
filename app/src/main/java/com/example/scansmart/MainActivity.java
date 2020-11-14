@@ -108,7 +108,9 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.about){
-            Toast.makeText(MainActivity.this, "About page", Toast.LENGTH_SHORT).show();
+            myDialog.setContentView(R.layout.about);
+            myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            myDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
