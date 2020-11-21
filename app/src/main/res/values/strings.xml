@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">ScanSmart</string>
     <string name="textgrid">What do you want to scan?</string>
-    <string name="about_first">ScanSmart is a free application that scans barcodes (including Wifi barcodes) and also uses pictures to extract phone numbers, e-mails and wifi passwords to use them. I would appreciate it if you could help me make it better with suggestions or report to me any problems you had using it.</string>
-    <string name="email">e-mail: jimakosrp@gmail.com</string>
+    <string name="email" translatable="false">e-mail: jimakosrp@gmail.com</string>
     <string name="about_second">There is no paid version of the app or any extra features to buy. It also has no ads. If you want to support me, you can do it here:</string>
-    <string name="donate">https://paypal.me/dimitrisripis</string>
-    <string name="copyrights">©2020 ScanSmart is created by Dimitris Ripis. All rights reserved.</string>
+    <string name="donate" translatable="false">https://paypal.me/dimitrisripis</string>
+    <string name="copyrights" translatable="false">©2020 ScanSmart is created by Dimitris Ripis. All rights reserved.</string>
+    <string name="about_first">ScanSmart is a free application that scans barcodes (including Wifi barcodes) and extracts information from photos. I would appreciate it if you could send suggestions or report to me any problems you had using it.</string>
 </resources>
