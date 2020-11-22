@@ -12,7 +12,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password Found:"/>
+        android:text="@string/passwordfound"/>
 
     <EditText
         android:textSize="20sp"
@@ -31,13 +31,13 @@
             android:id="@+id/btnCopy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Copy"/>
+            android:text="@string/copy"/>
 
         <Button
             android:id="@+id/btnReScan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Re-Scan"/>
+            android:text="@string/rescan"/>
 
     </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Select WiFi to connect"/>
+            android:text="@string/selwifi"/>
 
         <ImageView
             android:layout_gravity="center"

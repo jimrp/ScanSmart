@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity{
     private CardView choice1, choice2, choice3, choice4;
     private Dialog myDialog;
     private ImageView selQr, selCam;
+    private TextView donate, contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         verifyPermissions();
-
         choice1 = findViewById(R.id.choice1);
         choice2 = findViewById(R.id.choice2);
         choice3 = findViewById(R.id.choice3);
@@ -111,6 +113,26 @@ public class MainActivity extends AppCompatActivity{
             myDialog.setContentView(R.layout.about);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
+
+            donate = myDialog.findViewById(R.id.donate);
+            contact = myDialog.findViewById(R.id.contact);
+
+            donate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.donate)));
+                    startActivity(intent);
+                }
+            });
+
+            contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:" + getString(R.string.email).substring(8)));
+                    startActivity(Intent.createChooser(intent, "Choose application"));
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,7 +145,7 @@ public class MainActivity extends AppCompatActivity{
             return;
         }
         else{
-            backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast = Toast.makeText(getBaseContext(), getString(R.string.exit), Toast.LENGTH_SHORT);
             backToast.show();
         }
         backPressedTime = System.currentTimeMillis();
@@ -163,10 +185,10 @@ public class MainActivity extends AppCompatActivity{
                 grantResults[4] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[5] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[6] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(), "Permissions granted!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.permok), Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(MainActivity.this, "It's required to grant all permissions.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.permask), Toast.LENGTH_SHORT).show();
             finish();
         }
         return;

@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="QR or Barcode"
+                    android:text="@string/option1"
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="@android:color/black"
                     android:textSize="30sp"
@@ -110,7 +110,7 @@
                     android:layout_height="match_parent"/>
 
                 <TextView
-                    android:text="Phone or Email"
+                    android:text="@string/option2"
                     android:layout_weight="1"
                     android:gravity="center_horizontal|center_vertical"
                     android:textColor="@android:color/black"
@@ -154,7 +154,7 @@
                     android:layout_height="match_parent"/>
 
                 <TextView
-                    android:text="WiFi Connect"
+                    android:text="@string/option3"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="@android:color/black"
@@ -197,7 +197,7 @@
                     android:layout_height="match_parent"/>
 
                 <TextView
-                    android:text="Copy Text"
+                    android:text="@string/option4"
                     android:layout_weight="1"
                     android:gravity="center_horizontal|center_vertical"
                     android:textColor="@android:color/black"

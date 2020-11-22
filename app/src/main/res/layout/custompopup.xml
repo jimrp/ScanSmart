@@ -9,10 +9,11 @@
     android:layout_gravity="center">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:padding="20dp">
         <ImageView
             android:id="@+id/selectQr"
@@ -20,23 +21,24 @@
             android:layout_height="100dp"
             android:background="@drawable/ripple_effect"
             android:src="@drawable/wifi1"
-            android:layout_gravity="center" />
+            android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan QR"
+            android:text="@string/wifi1"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:padding="20dp">
         <ImageView
             android:id="@+id/selectCamera"
@@ -44,15 +46,15 @@
             android:layout_height="100dp"
             android:background="@drawable/ripple_effect"
             android:src="@drawable/wifi2"
-            android:layout_gravity="center" />
+            android:gravity="center" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Camera"
+            android:text="@string/wifi2"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 

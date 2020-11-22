@@ -4,4 +4,21 @@
     <string name="textgrid">Τι θέλεις να σκανάρεις;</string>
     <string name="about_first">Το ScanSmart είναι μια δωρεάν εφαρμογή που διαβάζει barcodes (όλων των ειδών) και εξάγει πληροφορίες από φωτογραφίες. Θα εκτιμήσω να μου στείλετε προτάσεις ή να μου αναφέρετε τυχόν προβλήματα που είχατε χρησιμοποιώντας την.</string>
     <string name="about_second">Δεν υπάρχει κάποια επί πληρωμή έκδοση αυτής της εφαρμογής, κάποια έξτρα λειτουργία για αγορά, ούτε προβάλλονται διαφημίσεις. Αν θέλετε να με υποστηρίξετε, μπορείτε να το κάνετε εδώ:</string>
+    <string name="option1">QR ή Barcode</string>
+    <string name="option2">Τηλέφωνο ή E-mail</string>
+    <string name="option3">Σύνδεση WiFi</string>
+    <string name="option4">Αντιγραφή κειμένου</string>
+    <string name="exit">Πάτησε πάλι πίσω για έξοδο</string>
+    <string name="permok">Οι άδειες χορηγήθηκαν.</string>
+    <string name="permask">Απαιτείται να χορηγηθούν όλες οι άδειες.</string>
+    <string name="wifi1">Με QR Code</string>
+    <string name="wifi2">Με φωτογραφία του κωδικού</string>
+    <string name="aboutbutton">Σχετικά με την εφαρμογή</string>
+    <string name="result">Αποτέλεσμα</string>
+    <string name="call">Κλήση</string>
+    <string name="sendemail">Αποστολή E-mail</string>
+    <string name="rescan">Ξανα-σκάναρε</string>
+    <string name="passwordfound">Κωδικός που βρέθηκε:</string>
+    <string name="copy">Αντιγραφή</string>
+    <string name="selwifi">Διάλεξε δίκτυο για να συνδεθείς</string>
 </resources>
