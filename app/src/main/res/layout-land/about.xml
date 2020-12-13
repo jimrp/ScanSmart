@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="600dp"
     android:layout_height="wrap_content"
     android:background="@drawable/roundstyle"
     android:padding="15dp"
@@ -10,32 +10,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="30dp">
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
         <ImageView
             android:id="@+id/selectQr"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:src="@drawable/icon1"
             android:layout_gravity="center"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="0dp"
             android:text="@string/app_name"
             android:textStyle="bold"
             android:textSize="25sp"
             android:textColor="@color/colorPrimary"
-            android:gravity="center_vertical" />
+            android:layout_gravity="center" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
@@ -53,7 +53,7 @@
                 android:text="@string/email"
                 android:textSize="22sp"
                 android:textColor="#000"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:padding="5dp"/>
             <TextView
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                 android:text="@string/donate"
                 android:textSize="22sp"
                 android:textColor="#000"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:padding="5dp"/>
             <TextView
                 android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textColor="#000"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:padding="5dp"/>
         </LinearLayout>
     </ScrollView>
