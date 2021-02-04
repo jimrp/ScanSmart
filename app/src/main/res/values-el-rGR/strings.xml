@@ -21,4 +21,20 @@
     <string name="passwordfound">Κωδικός που βρέθηκε:</string>
     <string name="copy">Αντιγραφή</string>
     <string name="selwifi">Διάλεξε δίκτυο για να συνδεθείς</string>
+    <string name="notphone">Μη έγκυρος αριθμός τηλεφώνου</string>
+    <string name="notemail">Μη έγκυρο e-mail</string>
+    <string name="error">Σφάλμα</string>
+    <string name="notphoneemail">Δε βρέθηκε τηλέφωνο ή e-mail</string>
+    <string name="conntry">Προσπάθεια για σύνδεση..</string>
+    <string name="connect">"Σύνδεση στο "</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="notwifi">Αυτός δεν είναι κωδικός WiFi</string>
+    <string name="question1">Θέλεις να επισκεφθείς αυτή τη σελίδα;</string>
+    <string name="visit">Επίσκεψη</string>
+    <string name="searchweb">Αναζήτηση στο ίντερνετ</string>
+    <string name="enablewifi">Το WiFi είναι απενεργοποιημένο. Πρέπει να το ενεργοποιήσεις.</string>
+    <string name="copypassword">"Αντιγράφηκε ο κωδικός : "</string>
+    <string name="textcopy">Το κείμενο αντιγράφηκε</string>
+    <string name="try2">" για σύνδεση στο "</string>
+    <string name="try1">"Προσπάθεια χρήσης του κωδικού "</string>
 </resources>

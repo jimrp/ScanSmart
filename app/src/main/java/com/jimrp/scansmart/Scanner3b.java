@@ -1,106 +1,111 @@
-package com.example.scansmart;
+package com.jimrp.scansmart;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import android.Manifest;
-import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.google.zxing.Result;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class Scanner2 extends AppCompatActivity {
+
+public class Scanner3b extends AppCompatActivity {
+
+    private WifiManager wifiManager;
+    private ListView listView;
+    private int size = 0;
+    private List<ScanResult> results;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayAdapter adapter;
 
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 1001;
     private static String scanResult;
     ClipboardManager clipboard;
     ClipData clip;
+    public String type, ssid, pass = "";
+    public WifiConfiguration conf;
 
-    Button bCall, bEmail, bRescan;
-    ImageView mPreviewIv;
+
+    Button bRescan, bCopy;
+    ImageView mPreviewIv, bRescanWifi;
     EditText eText;
     Uri image_uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scanner2);
+        setContentView(R.layout.activity_scanner3b);
 
         mPreviewIv = findViewById(R.id.imageIv);
         eText = findViewById(R.id.resultEt);
-        bCall = findViewById(R.id.btnCall);
-        bEmail = findViewById(R.id.btnEmail);
+        bCopy = findViewById(R.id.btnCopy);
         bRescan = findViewById(R.id.btnReScan);
+        bRescanWifi = findViewById(R.id.reScan);
 
+        listView = findViewById(R.id.wifiList);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (!wifiManager.isWifiEnabled()){
+            Toast.makeText(this, getString(R.string.enablewifi), Toast.LENGTH_SHORT).show();
+            wifiManager.setWifiEnabled(true);
+        }
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
+        listView.setAdapter(adapter);
+        scanWiFi();
 
         eText.setText("");
         pickCamera();
 
-        bCall.setOnClickListener(new View.OnClickListener() {
+        bRescanWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PhoneNumberUtils.isGlobalPhoneNumber(eText.getText().toString())){
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse("tel:" + eText.getText().toString()));
-                    startActivity(Intent.createChooser(intent, "Choose application"));
+                if (!wifiManager.isWifiEnabled()){
+                    Toast.makeText(Scanner3b.this, getString(R.string.enablewifi), Toast.LENGTH_SHORT).show();
+                    wifiManager.setWifiEnabled(true);
                 }
-                else {
-                    Toast.makeText(Scanner2.this, "That's not a phone number..", Toast.LENGTH_SHORT).show();
-                }
+                scanWiFi();
             }
         });
-        bEmail.setOnClickListener(new View.OnClickListener() {
+
+        bCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(android.util.Patterns.EMAIL_ADDRESS.matcher(eText.getText().toString()).matches()){
-                    Intent intent = new Intent(Intent.ACTION_SENDTO);
-                    intent.setData(Uri.parse("mailto:" + eText.getText().toString()));
-                    startActivity(Intent.createChooser(intent, "Choose application"));
-                }
-                else {
-                    Toast.makeText(Scanner2.this, "That's not an email address..", Toast.LENGTH_SHORT).show();
-                }
+                pass = eText.getText().toString();
+                clip = ClipData.newPlainText("text", eText.getText().toString());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(Scanner3b.this, getString(R.string.copypassword) + pass, Toast.LENGTH_SHORT).show();
             }
         });
         bRescan.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +115,37 @@ public class Scanner2 extends AppCompatActivity {
                 pickCamera();
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ssid = results.get(i).SSID;
+                type = results.get(i).capabilities;
+
+                conf = new WifiConfiguration();
+                conf.SSID = "\"" + ssid + "\"";
+                if(type.contains("WEP")){
+                    conf.wepKeys[0] = "\"" + pass + "\"";
+                    conf.wepTxKeyIndex = 0;
+                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                    conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+                }
+                else if(type.contains("WPA")){
+                    conf.preSharedKey = "\""+ pass +"\"";
+                }
+                else{
+                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                }
+                wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                int netId = wifiManager.addNetwork(conf);
+                wifiManager.disconnect();
+                wifiManager.enableNetwork(netId, true);
+                wifiManager.reconnect();
+
+                Toast.makeText(Scanner3b.this, getString(R.string.try1) + " '" + pass + "' " + getString(R.string.try2) + " '" + ssid + "' ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -162,6 +198,25 @@ public class Scanner2 extends AppCompatActivity {
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
+    private void scanWiFi(){
+        arrayList.clear();
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        wifiManager.startScan();
+    }
+
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            results = wifiManager.getScanResults();
+            unregisterReceiver(this);
+
+            for(ScanResult scanResult : results){
+                arrayList.add(scanResult.SSID);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     //results
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -192,7 +247,7 @@ public class Scanner2 extends AppCompatActivity {
                 TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
                 if(!recognizer.isOperational()){
-                    Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Frame frame = new Frame.Builder().setBitmap(bitmap).build();
@@ -203,24 +258,20 @@ public class Scanner2 extends AppCompatActivity {
                         sb.append(myItem.getValue());
                         sb.append("\n");
                     }
-                    //result
-                    scanResult = sb.toString();
-                    scanResult = scanResult.replaceAll("\n","");
-                    scanResult = scanResult.replaceAll(" ","");
+                    //show result
+                    String sb2 = sb.toString();
+                    scanResult = sb2;
+                    if (sb2.length() > 0) {
+                        String str = scanResult;
+                        scanResult = str.substring(0, str.length() - 1);
+                    }
+                    String str2 = scanResult;
+                    pass = str2;
+
+                    clip = ClipData.newPlainText("text", str2);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, getString(R.string.copypassword), Toast.LENGTH_SHORT).show();
                     eText.setText(scanResult);
-                    if(PhoneNumberUtils.isGlobalPhoneNumber(scanResult)){
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:" + scanResult));
-                        startActivity(Intent.createChooser(intent, "Choose application"));
-                    }
-                    else if (android.util.Patterns.EMAIL_ADDRESS.matcher(scanResult).matches()) {
-                        Intent intent = new Intent(Intent.ACTION_SENDTO);
-                        intent.setData(Uri.parse("mailto:" + scanResult));
-                        startActivity(Intent.createChooser(intent, "Choose application"));
-                    }
-                    else {
-                        Toast.makeText(this, "No phone or email found..", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){

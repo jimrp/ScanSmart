@@ -1,27 +1,18 @@
-package com.example.scansmart;
+package com.jimrp.scansmart;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
-import com.google.zxing.common.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
 
 public class Scanner3 extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -96,12 +87,12 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
 
             if (!type.equals("") && !ssid.equals("")){
                 new AlertDialog.Builder(this)
-                        .setTitle("Result")
+                        .setTitle(getString(R.string.result))
                         .setMessage("Wifi Network\nSecurity type = " + type + "\nSSID = " + ssid + "\nPassword = " + pass)
-                        .setPositiveButton("Connect to " + ssid, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.connect) + " " + ssid, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(getApplicationContext(), "Trying to connect..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.conntry), Toast.LENGTH_SHORT).show();
 
                                 conf = new WifiConfiguration();
                                 conf.SSID = "\"" + ssid + "\"";
@@ -128,7 +119,7 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
                                 dialogInterface.dismiss();
                                 scannerView.resumeCameraPreview(Scanner3.this);
                             }})
-                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
@@ -149,8 +140,8 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
             }
             else {
                 new AlertDialog.Builder(this)
-                        .setTitle("Error")
-                        .setMessage("That's not a WiFi code..")
+                        .setTitle(getString(R.string.error))
+                        .setMessage(getString(R.string.notwifi))
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -174,8 +165,8 @@ public class Scanner3 extends AppCompatActivity implements ZXingScannerView.Resu
         }
         else{
             new AlertDialog.Builder(this)
-                    .setTitle("Error")
-                    .setMessage("That's not a WiFi code..")
+                    .setTitle(getString(R.string.error))
+                    .setMessage(getString(R.string.notwifi))
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

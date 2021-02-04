@@ -23,5 +23,21 @@
     <string name="passwordfound">Password found:</string>
     <string name="copy">Copy</string>
     <string name="selwifi">Select WiFi to connect</string>
+    <string name="notphone">This is not a phone number..</string>
+    <string name="notemail">This is not an email address..</string>
+    <string name="error">Error</string>
+    <string name="notphoneemail">No phone or email found..</string>
+    <string name="conntry">Trying to connect..</string>
+    <string name="connect">Connect to </string>
+    <string name="cancel">Cancel</string>
+    <string name="notwifi">This is not a WiFi code..</string>
+    <string name="question1">Do you want to visit this website?</string>
+    <string name="visit">Visit</string>
+    <string name="searchweb">Search the web</string>
+    <string name="enablewifi">WiFi is disabled. You need to enable it.</string>
+    <string name="copypassword">Copied Password : </string>
+    <string name="try1">Trying to use </string>
+    <string name="try2"> to connect to </string>
+    <string name="textcopy">Text Copied</string>
 
 </resources>

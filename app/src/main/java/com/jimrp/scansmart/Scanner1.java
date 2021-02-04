@@ -1,4 +1,4 @@
-package com.example.scansmart;
+package com.jimrp.scansmart;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,9 +39,9 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
 
         if(urls.length == 1){
             new AlertDialog.Builder(this)
-            .setTitle("Result")
-            .setMessage(urls[0] + "\n\n" + "Do you want to visit this website?")
-            .setPositiveButton("Visit", new Dialog.OnClickListener() {
+            .setTitle(getString(R.string.result))
+            .setMessage(urls[0] + "\n\n" + getString(R.string.question1))
+            .setPositiveButton(getString(R.string.visit), new Dialog.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if(!urls[0].startsWith("http://") && !urls[0].startsWith("https://")){
@@ -56,7 +56,7 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
                     dialogInterface.dismiss();
                     scannerView.resumeCameraPreview(Scanner1.this);
                 }})
-            .setNeutralButton("Cancel", new Dialog.OnClickListener() {
+            .setNeutralButton(getString(R.string.cancel), new Dialog.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
@@ -77,9 +77,9 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
         }
         else{
             new AlertDialog.Builder(this)
-                    .setTitle("Result")
+                    .setTitle(getString(R.string.result))
                     .setMessage(scanResult)
-                    .setPositiveButton("Search the web", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.searchweb), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             scanResult = scanResult.replaceAll("[^A-Za-z0-9 ]","");
@@ -90,7 +90,7 @@ public class Scanner1 extends AppCompatActivity implements ZXingScannerView.Resu
                             dialogInterface.dismiss();
                             scannerView.resumeCameraPreview(Scanner1.this);
                         }})
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();

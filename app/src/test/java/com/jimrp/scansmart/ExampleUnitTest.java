@@ -1,4 +1,4 @@
-package com.example.scansmart;
+package com.jimrp.scansmart;
 
 import org.junit.Test;
 

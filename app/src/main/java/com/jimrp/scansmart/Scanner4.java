@@ -1,30 +1,18 @@
-package com.example.scansmart;
+package com.jimrp.scansmart;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,20 +20,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.google.zxing.Result;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.util.List;
 
 public class Scanner4 extends AppCompatActivity {
 
@@ -80,7 +61,7 @@ public class Scanner4 extends AppCompatActivity {
             public void onClick(View v) {
                 clip = ClipData.newPlainText("text", eText.getText().toString());
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(Scanner4.this, "Text Copied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Scanner4.this, getString(R.string.textcopy), Toast.LENGTH_SHORT).show();
             }
         });
         bRescan.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +168,7 @@ public class Scanner4 extends AppCompatActivity {
                     scanResult = sb.toString();
                     clip = ClipData.newPlainText("text", scanResult);
                     clipboard.setPrimaryClip(clip);
-                    Toast.makeText(this, "Text Copied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.textcopy), Toast.LENGTH_SHORT).show();
                     eText.setText(scanResult);
                 }
             }

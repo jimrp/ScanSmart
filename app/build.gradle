@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
 
 
     defaultConfig {
-        applicationId "com.example.scansmart"
+        applicationId "com.jimrp.scansmart"
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
